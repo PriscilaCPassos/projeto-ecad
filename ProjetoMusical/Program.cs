@@ -7,7 +7,7 @@ using ProjetoMusical.Repository.Interface;
 using System;
 using Microsoft.Extensions.DependencyInjection;
 
-// Configurações importantes para o contexto do banco de dados e para o repositório.
+// ConfiguraÃ§Ãµes importantes para o contexto do banco de dados e para o repositÃ³rio.
 namespace ProjetoMusical
 {
     public class Program
@@ -17,7 +17,7 @@ namespace ProjetoMusical
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            // Método configure Services = Realiza a configuração de serviços usados na aplicação.
+            // MÃ©todo configure Services = Realiza a configuraÃ§Ã£o de serviÃ§os usados na aplicaÃ§Ã£o.
             builder.Services.AddControllers();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -25,28 +25,19 @@ namespace ProjetoMusical
             builder.Services.AddSwaggerGen();
 
 
-            //Leitura da string de conecção do arquivo de configuração.
+            //Leitura da string de conecÃ§Ã£o do arquivo de configuraÃ§Ã£o.
             string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-            //Configuração do Banco de Dados = Configurando o DbContext com a string de conexão.
+            //ConfiguraÃ§Ã£o do Banco de Dados = Configurando o DbContext com a string de conexÃ£o.
             builder.Services.AddDbContext<ProjetoMusicalDBContext>(options =>
              options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 
-            //Configurando a injeção de dependências.
-            // Toda vez que chamar a Interface ITitularRepository, a classe que vai resolver intanciar será a TitularRepository.
-            // Toda vez que chamar a Interface IObraRepository, a classe que vai resolver intanciar será a ObraRepository.
+            //Configurando a injeÃ§Ã£o de dependÃªncias.
+            // Toda vez que chamar a Interface ITitularRepository, a classe que vai resolver intanciar serÃ¡ a TitularRepository.
+            // Toda vez que chamar a Interface IObraRepository, a classe que vai resolver intanciar serÃ¡ a ObraRepository.
             builder.Services.AddScoped<ITitularRepository, TitularRepository>();
             builder.Services.AddScoped<IObraRepository, ObraRepository>();
-
-
-            // Comentários a retirar depois:
-            // builder.Services.AddEntityFrameworkMySql()
-            //  .AddDbContext<ProjetoMusicalDBContext>(
-            //    Options => Options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-            // builder.Services.AddScoped<ITitularRepository, TitularRepository>();
-
 
             var app = builder.Build();
 
